@@ -33,6 +33,17 @@ Route::get('/products-view', function () {
     return view('products');
 })->name('products.view');
 
+
+/*
+|--------------------------------------------------------------------------
+| Product CSV Export
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/products/export', [ProductController::class, 'export'])
+    ->name('products.export');
+
+
 /*
 |--------------------------------------------------------------------------
 | Product Delete
