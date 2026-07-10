@@ -5,15 +5,15 @@
 
         @if(session('success'))
 
-            <div class="mb-6">
+        <div class="mb-6">
 
-                <div class="bg-green-100 border border-green-400 text-green-700 px-5 py-4 rounded">
+            <div class="bg-green-100 border border-green-400 text-green-700 px-5 py-4 rounded">
 
-                    {{ session('success') }}
-
-                </div>
+                {{ session('success') }}
 
             </div>
+
+        </div>
 
         @endif
 
@@ -110,219 +110,390 @@
         </div>
 
 
-        <!-- ================= Filter Card ================= -->
+        <!-- ================= Modern Filter Card ================= -->
 
-        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <div class="bg-white/90 backdrop-blur rounded-2xl shadow-xl border border-gray-100 p-6 mb-8">
 
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-5">
+            <div class="flex items-center justify-between mb-6">
+
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">
+                        Product Filters
+                    </h2>
+
+                    <p class="text-sm text-gray-500 mt-1">
+                        Search and filter products instantly
+                    </p>
+                </div>
+
+                <div class="text-3xl">
+                    🔍
+                </div>
+
+            </div>
+
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+
 
                 <!-- Search -->
 
                 <div>
 
-                    <label class="font-semibold text-gray-700">
+                    <label class="flex items-center gap-2 text-sm font-semibold text-gray-700">
 
-                        Search
+                        <span>🔎</span>
+                        Search Product
 
                     </label>
 
-                    <input type="text" wire:model.live="search" placeholder="Search products..."
-                        class="mt-2 w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                    <div class="relative mt-2">
+
+                        <input
+                            type="text"
+                            wire:model.live="search"
+                            placeholder="Search by name or description..."
+                            class="w-full rounded-xl border-gray-200 bg-gray-50 px-4 py-3 
+                    focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+
+                    </div>
 
                 </div>
+
 
 
                 <!-- Color -->
 
                 <div>
 
-                    <label class="font-semibold text-gray-700">
+                    <label class="flex items-center gap-2 text-sm font-semibold text-gray-700">
 
+                        <span>🎨</span>
                         Color
 
                     </label>
 
-                    <select wire:model.live="selectedColor" class="mt-2 w-full rounded-lg border-gray-300">
 
-                        <option value="">All Colors</option>
+                    <select
+                        wire:model.live="selectedColor"
+                        class="mt-2 w-full rounded-xl border-gray-200 bg-gray-50 px-4 py-3
+                focus:bg-white focus:ring-2 focus:ring-blue-500 transition">
+
+                        <option value="">
+                            All Colors
+                        </option>
+
 
                         @foreach($colors as $color)
 
-                            <option value="{{ $color }}">
-
-                                {{ $color }}
-
-                            </option>
+                        <option value="{{ $color }}">
+                            {{ $color }}
+                        </option>
 
                         @endforeach
+
 
                     </select>
 
                 </div>
+
 
 
                 <!-- Category -->
 
                 <div>
 
-                    <label class="font-semibold text-gray-700">
+                    <label class="flex items-center gap-2 text-sm font-semibold text-gray-700">
 
+                        <span>📂</span>
                         Category
 
                     </label>
 
-                    <select wire:model.live="selectedCategory" class="mt-2 w-full rounded-lg border-gray-300">
 
-                        <option value="">All Categories</option>
+                    <select
+                        wire:model.live="selectedCategory"
+                        class="mt-2 w-full rounded-xl border-gray-200 bg-gray-50 px-4 py-3
+                focus:bg-white focus:ring-2 focus:ring-blue-500 transition">
+
+
+                        <option value="">
+                            All Categories
+                        </option>
+
 
                         @foreach($categories as $category)
 
-                            <option value="{{ $category->id }}">
-
-                                {{ $category->name }}
-
-                            </option>
+                        <option value="{{ $category->id }}">
+                            {{ $category->name }}
+                        </option>
 
                         @endforeach
+
 
                     </select>
 
                 </div>
+
 
 
                 <!-- Sort -->
 
                 <div>
 
-                    <label class="font-semibold text-gray-700">
+                    <label class="flex items-center gap-2 text-sm font-semibold text-gray-700">
 
+                        <span>↕️</span>
                         Sort By
 
                     </label>
 
-                    <select wire:model.live="sortBy" class="mt-2 w-full rounded-lg border-gray-300">
+
+                    <select
+                        wire:model.live="sortBy"
+                        class="mt-2 w-full rounded-xl border-gray-200 bg-gray-50 px-4 py-3
+                focus:bg-white focus:ring-2 focus:ring-blue-500 transition">
+
 
                         <option value="latest">
-
                             Latest
-
                         </option>
 
                         <option value="oldest">
-
                             Oldest
-
                         </option>
 
                         <option value="price_low">
-
                             Price Low → High
-
                         </option>
 
                         <option value="price_high">
-
                             Price High → Low
-
                         </option>
 
                         <option value="name_asc">
-
                             Name A → Z
-
                         </option>
 
                         <option value="name_desc">
-
                             Name Z → A
-
                         </option>
+
 
                     </select>
 
                 </div>
 
+                <!-- Min Price -->
 
-                <!-- Reset -->
+                <div>
 
-                <div class="flex items-end">
+                    <label class="flex items-center gap-2 text-sm font-semibold text-gray-700">
 
-                    <button wire:click="resetFilters"
-                        class="w-full bg-red-500 hover:bg-red-600 text-white rounded-lg py-3 transition">
+                        <span>💰</span>
+                        Minimum Price
 
-                        Reset Filters
+                    </label>
 
-                    </button>
+
+                    <input
+                        type="number"
+                        wire:model.live="minPrice"
+                        placeholder="₹ Minimum"
+                        min="0"
+                        class="mt-2 w-full rounded-xl border-gray-200 bg-gray-50 px-4 py-3
+                focus:bg-white focus:ring-2 focus:ring-green-500 transition">
 
                 </div>
 
+                <!-- Max Price -->
+
+                <div>
+
+                    <label class="flex items-center gap-2 text-sm font-semibold text-gray-700">
+
+                        <span>💰</span>
+                        Maximum Price
+
+                    </label>
+
+
+                    <input
+                        type="number"
+                        wire:model.live="maxPrice"
+                        placeholder="₹ Maximum"
+                        min="0"
+                        class="mt-2 w-full rounded-xl border-gray-200 bg-gray-50 px-4 py-3
+                focus:bg-white focus:ring-2 focus:ring-green-500 transition">
+
+                </div>
+
+                <!-- Reset Button -->
+
+                <div class="flex items-end lg:col-span-2">
+
+                    <button
+                        wire:click="resetFilters"
+                        class="w-full py-3 rounded-xl text-white font-semibold
+                bg-gradient-to-r from-red-500 to-pink-600
+                hover:from-red-600 hover:to-pink-700
+                shadow-lg hover:shadow-xl transition duration-300">
+
+                        🔄 Reset All Filters
+
+                    </button>
+
+
+                </div>
+
+
             </div>
+
 
         </div>
 
 
         <!-- ================= Active Filters ================= -->
 
-        @if($search || $selectedColor || $selectedCategory)
+        @if(
+        $search ||
+        $selectedColor ||
+        $selectedCategory ||
+        $minPrice !== '' ||
+        $maxPrice !== ''
+        )
 
-            <div class="bg-blue-50 rounded-xl p-4 mb-6">
+        <div class="bg-blue-50 rounded-xl p-4 mb-6">
 
-                <span class="font-bold text-blue-700">
+            <span class="font-bold text-blue-700">
 
-                    Active Filters :
+                Active Filters :
 
-                </span>
+            </span>
 
-                @if($search)
+            @if($search)
 
-                    <span class="bg-blue-600 text-white px-3 py-1 rounded-full ml-2">
+            <span class="bg-blue-600 text-white px-3 py-1 rounded-full ml-2">
 
-                        {{ $search }}
+                {{ $search }}
 
-                    </span>
+            </span>
 
-                @endif
+            @endif
 
-                @if($selectedColor)
+            @if($selectedColor)
 
-                    <span class="bg-green-600 text-white px-3 py-1 rounded-full ml-2">
+            <span class="bg-green-600 text-white px-3 py-1 rounded-full ml-2">
 
-                        {{ $selectedColor }}
+                {{ $selectedColor }}
 
-                    </span>
+            </span>
 
-                @endif
+            @endif
 
-                @if($selectedCategory)
+            @if($selectedCategory)
 
-                    <span class="bg-purple-600 text-white px-3 py-1 rounded-full ml-2">
+            <span class="bg-purple-600 text-white px-3 py-1 rounded-full ml-2">
 
-                        {{ optional($categories->find($selectedCategory))->name }}
+                {{ optional($categories->find($selectedCategory))->name }}
 
-                    </span>
+            </span>
 
-                @endif
+            @endif
 
-            </div>
+            @if($minPrice !== '')
+
+            <span class="bg-orange-600 text-white px-3 py-1 rounded-full ml-2">
+
+                Min: ${{ number_format($minPrice,2) }}
+
+            </span>
+
+            @endif
+
+            @if($maxPrice !== '')
+
+            <span class="bg-red-600 text-white px-3 py-1 rounded-full ml-2">
+
+                Max: ${{ number_format($maxPrice,2) }}
+
+            </span>
+
+            @endif
+
+        </div>
 
         @endif
 
 
         <!-- ================= Product Count ================= -->
 
-        <div class="flex justify-between items-center mb-6">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
 
-            <h2 class="text-xl font-semibold">
+            <div>
 
-                Products
+                <h2 class="text-xl font-semibold">
+                    Products
+                </h2>
 
-            </h2>
+                <span class="bg-blue-100 text-blue-700 px-4 py-2 rounded-lg inline-block mt-2">
 
-            <span class="bg-blue-100 text-blue-700 px-4 py-2 rounded-lg">
+                    Showing {{ $products->firstItem() ?? 0 }}
+                    -
+                    {{ $products->lastItem() ?? 0 }}
+                    of
+                    {{ $products->total() }}
+                    Products
 
-                {{ $products->total() }} Products Found
+                </span>
 
-            </span>
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+
+
+                <button
+                    wire:click="setView('grid')"
+                    class="px-4 py-2 rounded-lg transition
+        {{ $viewType=='grid'
+            ? 'bg-blue-600 text-white'
+            : 'bg-gray-200 text-gray-700' }}">
+
+                    🔳 Grid
+
+                </button>
+
+
+
+                <button
+                    wire:click="setView('list')"
+                    class="px-4 py-2 rounded-lg transition
+        {{ $viewType=='list'
+            ? 'bg-blue-600 text-white'
+            : 'bg-gray-200 text-gray-700' }}">
+
+                    ☰ List
+
+                </button>
+
+
+
+                <a
+                    href="{{ route('products.export', [
+            'search'=>$search,
+            'color'=>$selectedColor,
+            'category'=>$selectedCategory,
+            'minPrice'=>$minPrice,
+            'maxPrice'=>$maxPrice
+        ]) }}"
+                    class="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white transition">
+
+                    📥 Export CSV
+
+                </a>
+
+
+            </div>
 
         </div>
 
@@ -330,156 +501,246 @@
 
         @if($products->count())
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @if($viewType == 'grid')
 
-                @foreach($products as $product)
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
+            @foreach($products as $product)
 
-                        <!-- Product Header -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
 
-                        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-white">
+                <!-- Product Header -->
 
-                            <h2 class="text-2xl font-bold">
+                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-white">
 
-                                {{ $product->name }}
+                    <h2 class="text-2xl font-bold">
 
-                            </h2>
+                        {{ $product->name }}
 
-                            <p class="text-sm opacity-90 mt-2">
+                    </h2>
 
-                                {{ Str::limit($product->description, 80) }}
+                    <p class="text-sm opacity-90 mt-2">
 
-                            </p>
+                        {{ Str::limit($product->description, 80) }}
+
+                    </p>
+
+                </div>
+
+                <!-- Product Body -->
+
+                <div class="p-5">
+
+                    <div class="flex justify-between items-center mb-4">
+
+                        <span class="text-3xl font-bold text-green-600">
+
+                            ${{ number_format($product->price, 2) }}
+
+                        </span>
+
+                        <span class="px-3 py-1 bg-gray-200 rounded-full text-sm font-semibold">
+
+                            {{ $product->category->name }}
+
+                        </span>
+
+                    </div>
+
+                    <!-- Color -->
+
+                    <div class="flex items-center mb-5">
+
+                        <div class="w-6 h-6 rounded-full border border-gray-300 mr-3"
+                            style="background: {{ strtolower($product->color) }}">
+                        </div>
+
+                        <span class="font-medium">
+
+                            {{ $product->color }}
+
+                        </span>
+
+                    </div>
+
+                    <!-- Product Information -->
+
+                    <div class="space-y-2 text-sm text-gray-600">
+
+                        <div class="flex justify-between">
+
+                            <span>ID</span>
+
+                            <span>#{{ $product->id }}</span>
 
                         </div>
 
-                        <!-- Product Body -->
+                        <div class="flex justify-between">
 
-                        <div class="p-5">
+                            <span>Created</span>
 
-                            <div class="flex justify-between items-center mb-4">
+                            <span>
 
-                                <span class="text-3xl font-bold text-green-600">
+                                {{ $product->created_at->format('d M Y') }}
 
-                                    ${{ number_format($product->price, 2) }}
+                            </span>
 
-                                </span>
+                        </div>
 
-                                <span class="px-3 py-1 bg-gray-200 rounded-full text-sm font-semibold">
+                        <div class="flex justify-between">
 
-                                    {{ $product->category->name }}
+                            <span>Updated</span>
 
-                                </span>
+                            <span>
 
-                            </div>
+                                {{ $product->updated_at->diffForHumans() }}
 
-                            <!-- Color -->
-
-                            <div class="flex items-center mb-5">
-
-                                <div class="w-6 h-6 rounded-full border border-gray-300 mr-3"
-                                    style="background: {{ strtolower($product->color) }}">
-                                </div>
-
-                                <span class="font-medium">
-
-                                    {{ $product->color }}
-
-                                </span>
-
-                            </div>
-
-                            <!-- Product Information -->
-
-                            <div class="space-y-2 text-sm text-gray-600">
-
-                                <div class="flex justify-between">
-
-                                    <span>ID</span>
-
-                                    <span>#{{ $product->id }}</span>
-
-                                </div>
-
-                                <div class="flex justify-between">
-
-                                    <span>Created</span>
-
-                                    <span>
-
-                                        {{ $product->created_at->format('d M Y') }}
-
-                                    </span>
-
-                                </div>
-
-                                <div class="flex justify-between">
-
-                                    <span>Updated</span>
-
-                                    <span>
-
-                                        {{ $product->updated_at->diffForHumans() }}
-
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-                            <!-- Buttons -->
-
-                            <div class="grid grid-cols-2 gap-3 mt-6">
-
-                                <button class="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg">
-
-                                    View
-
-                                </button>
-
-                                <button onclick="confirmDelete({{ $product->id }})"
-                                    class="bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg">
-
-                                    Delete
-
-                                </button>
-
-                            </div>
+                            </span>
 
                         </div>
 
                     </div>
 
-                @endforeach
+                    <!-- Buttons -->
+
+                    <div class="grid grid-cols-2 gap-3 mt-6">
+
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg">
+
+                            View
+
+                        </button>
+
+                        <button onclick="confirmDelete({{ $product->id }})"
+                            class="bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg">
+
+                            Delete
+
+                        </button>
+
+                    </div>
+
+                </div>
 
             </div>
+
+            @endforeach
+
+        </div>
 
         @else
 
-            <!-- No Products Found -->
+        <div class="space-y-5">
 
-            <div class="bg-white rounded-xl shadow-lg p-12 text-center">
+            @foreach($products as $product)
 
-                <div class="text-7xl mb-4">
-                    📦
+            <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col lg:flex-row justify-between items-center gap-6 hover:shadow-xl transition">
+
+                <div class="flex-1">
+
+                    <h2 class="text-2xl font-bold text-gray-800">
+
+                        {{ $product->name }}
+
+                    </h2>
+
+                    <p class="text-gray-500 mt-2">
+
+                        {{ Str::limit($product->description, 140) }}
+
+                    </p>
+
+                    <div class="flex flex-wrap gap-3 mt-4">
+
+                        <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full">
+
+                            {{ $product->category->name }}
+
+                        </span>
+
+                        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full">
+
+                            {{ $product->color }}
+
+                        </span>
+
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
+
+                            #{{ $product->id }}
+
+                        </span>
+
+                    </div>
+
                 </div>
 
-                <h2 class="text-3xl font-bold text-gray-700 mb-3">
-                    No Products Found
-                </h2>
+                <div class="text-center">
 
-                <p class="text-gray-500 mb-6">
-                    Try changing your search or filters.
-                </p>
+                    <div class="text-3xl font-bold text-green-600">
 
-                <button wire:click="resetFilters" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg">
+                        ${{ number_format($product->price,2) }}
 
-                    Reset Filters
+                    </div>
 
-                </button>
+                    <div class="text-sm text-gray-500 mt-2">
+
+                        {{ $product->created_at->format('d M Y') }}
+
+                    </div>
+                </div>
+
+                <div class="flex gap-3">
+
+                    <button
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg">
+
+                        View
+
+                    </button>
+
+                    <button
+                        onclick="confirmDelete({{ $product->id }})"
+                        class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg">
+
+                        Delete
+
+                    </button>
+
+                </div>
 
             </div>
+
+            @endforeach
+
+        </div>
+
+        @endif
+
+        @else
+
+        <!-- No Products Found -->
+
+        <div class="bg-white rounded-xl shadow-lg p-12 text-center">
+
+            <div class="text-7xl mb-4">
+                📦
+            </div>
+
+            <h2 class="text-3xl font-bold text-gray-700 mb-3">
+                No Products Found
+            </h2>
+
+            <p class="text-gray-500 mb-6">
+                Try changing your search or filters.
+            </p>
+
+            <button wire:click="resetFilters" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg">
+
+                Reset Filters
+
+            </button>
+
+        </div>
 
         @endif
 
@@ -488,11 +749,11 @@
 
         @if($products->hasPages())
 
-            <div class="mt-10 flex justify-center">
+        <div class="mt-10 flex justify-center">
 
-                {{ $products->links() }}
+            {{ $products->links() }}
 
-            </div>
+        </div>
 
         @endif
 
@@ -511,7 +772,6 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
-
             function confirmDelete(id) {
 
                 Swal.fire({
@@ -541,7 +801,6 @@
                 });
 
             }
-
         </script>
 
     </div>

@@ -13,13 +13,30 @@ class ProductFilter extends Component
 
     protected $paginationTheme = 'tailwind';
 
-    // Filters
+    /*
+    |--------------------------------------------------------------------------
+    | Filters
+    |--------------------------------------------------------------------------
+    */
+
     public $selectedColor = '';
     public $selectedCategory = '';
     public $search = '';
     public $sortBy = 'latest';
 
-    // Reset pagination whenever filters change
+    // NEW
+    public $minPrice = '';
+    public $maxPrice = '';
+
+    // Grid or List
+    public $viewType = 'grid';
+
+    /*
+    |--------------------------------------------------------------------------
+    | Reset pagination when filters change
+    |--------------------------------------------------------------------------
+    */
+
     public function updatingSearch()
     {
         $this->resetPage();
@@ -40,20 +57,55 @@ class ProductFilter extends Component
         $this->resetPage();
     }
 
-    // Reset all filters
+    public function updatingMinPrice()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingMaxPrice()
+    {
+        $this->resetPage();
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | View Toggle
+    |--------------------------------------------------------------------------
+    */
+
+    public function setView($view)
+    {
+        $this->viewType = $view;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Reset Filters
+    |--------------------------------------------------------------------------
+    */
+
     public function resetFilters()
     {
         $this->reset([
             'selectedColor',
             'selectedCategory',
             'search',
-            'sortBy'
+            'sortBy',
+            'minPrice',
+            'maxPrice',
         ]);
 
         $this->sortBy = 'latest';
+        $this->viewType = 'grid';
 
         $this->resetPage();
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Render
+    |--------------------------------------------------------------------------
+    */
 
     public function render()
     {
@@ -66,12 +118,12 @@ class ProductFilter extends Component
         */
 
         if (!empty($this->search)) {
+
             $query->where(function ($q) {
 
                 $q->where('name', 'like', '%' . $this->search . '%')
                     ->orWhere('description', 'like', '%' . $this->search . '%');
 
-                // Search by price
                 if (is_numeric($this->search)) {
                     $q->orWhere('price', $this->search);
                 }
@@ -96,6 +148,20 @@ class ProductFilter extends Component
 
         if (!empty($this->selectedCategory)) {
             $query->where('category_id', $this->selectedCategory);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | NEW Price Range Filter
+        |--------------------------------------------------------------------------
+        */
+
+        if ($this->minPrice !== '' && is_numeric($this->minPrice)) {
+            $query->where('price', '>=', $this->minPrice);
+        }
+
+        if ($this->maxPrice !== '' && is_numeric($this->maxPrice)) {
+            $query->where('price', '<=', $this->maxPrice);
         }
 
         /*
@@ -141,7 +207,7 @@ class ProductFilter extends Component
 
         /*
         |--------------------------------------------------------------------------
-        | Dashboard Statistics
+        | Dashboard
         |--------------------------------------------------------------------------
         */
 
@@ -155,7 +221,7 @@ class ProductFilter extends Component
 
         /*
         |--------------------------------------------------------------------------
-        | Filters Data
+        | Filter Data
         |--------------------------------------------------------------------------
         */
 
@@ -182,8 +248,15 @@ class ProductFilter extends Component
 
             'latestProduct' => $latestProduct,
 
+            'viewType' => $this->viewType,
         ]);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Delete Product
+    |--------------------------------------------------------------------------
+    */
 
     public function deleteProduct($id)
     {
